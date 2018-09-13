@@ -12,24 +12,43 @@ class update {
     {
         $this->setDb($db);
     }
-
-    public function searchSN()
+    //Recherche dans les différentes tables
+    public function searchBddGlpi()
     {
         $devices = $this->getDevices();
         $count = count($devices);
-        $requete = $this->_db->prepare('SELECT * FROM glpi_infocoms WHERE id = ?');
-        if ($requete->execute(array(
-            for()
-                $devices()}
-            }
-            ))) {
-            while ($row = $requete->fetch()) {
-               $results[] = $row;
+        $computers = $this->bddComputers($devices, $count);
+        $monitors = $this->bddMonitors($devices, $count);
+        return $computers;
+    }
+    //Récupération des ordinateurs fixes et portables dans la base GLPI
+    public function bddComputers($devices, $count)
+    {
+        $requete = $this->_db->prepare('SELECT * FROM glpi_computers WHERE serial = ?');
+        for($i = 0; $i < $count; $i++) {
+            if ($requete->execute(array($devices[$i][1]))) {
+                while ($row = $requete->fetch()) {
+                    $results[] = $row;
+                }
             }
         }
         return $results;
     }
 
+    //Récupération des écrans dans la base GLPI
+    public function bddMonitors($devices, $count)
+    {
+        $requete = $this->_db->prepare('SELECT * FROM glpi_monitors WHERE serial = ?');
+        for($i = 0; $i < $count; $i++) {
+            if ($requete->execute(array($devices[$i][1]))) {
+                while ($row = $requete->fetch()) {
+                    $results[] = $row;
+                }
+            }
+        }
+        return $results;
+    }
+    //Récupération des devices en attente d'attribution dans GLPI
     public function getDevices()
     {
         $requete = $this->_db->prepare('SELECT * FROM gestion_commande WHERE etat = ?');
@@ -47,5 +66,5 @@ class update {
 }
 
 $update = new update($bdd);
-$result = $update->getDevices();
+$result = $update->searchBddGlpi();
 print_r($result);
