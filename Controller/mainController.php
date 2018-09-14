@@ -16,11 +16,13 @@ class controller
   public function ajoutCommandeBDD(){
     $sn = explode("\n",$_POST['SN']);
     $nombreDeSN = count($sn) -1;
-    $etat =0;
-    $requete = $this->_db->prepare('INSERT INTO gestion_commande (SN, Commande, Date_commande, Date_reception, Fournisseur_ID, etat)
-                          VALUES (:sn, :commande, :orderDate, :deliveryDate, :supplier, :etat)');
+    $etat ='stock';
+    $type ='COMPUTER';
+    $requete = $this->_db->prepare('INSERT INTO gestion_commande (TYPE_MAT,SN, Commande, Date_commande, Date_reception, Fournisseur_ID, etat)
+                          VALUES (:TYPE_MAT, :sn, :commande, :orderDate, :deliveryDate, :supplier, :etat)');
     for($x = 0; $x < $nombreDeSN; $x++) {
       $requete->execute(array(
+        'TYPE_MAT' => $type,
         'sn'=> $sn[$x],
         'commande' => $_POST['commande'],
         'orderDate' => $_POST['orderDate'],
