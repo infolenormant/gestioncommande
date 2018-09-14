@@ -59,13 +59,13 @@
 
   </tr>
   <?php
-    $sql = "SELECT TYPE_MAT, SN, Commande, Date_commande, Date_reception, Fournisseur_ID FROM gestion_commande WHERE etat='stock'";
+    $sql = "SELECT type_mat, sn, commande, date_commande, date_reception, fournisseur FROM gestion_commande WHERE etat='stock'";
     $result = $bdd->query($sql);
     $count = $result->rowCount();
     if ($count > 0) {
     // output data of each row
     while($row = $result->fetch()) {
-        echo "<tr> <td>". $row["Commande"]. "</td><td>". $row["TYPE_MAT"]. "</td><td>" . $row["SN"] . " </td><td> ". $row["Date_commande"] . " </td><td> ". $row["Date_reception"] . " </td><td> ". $row["Fournisseur_ID"]." </td> </tr> ";
+        echo "<tr> <td>". $row["commande"]. "</td><td>". $row["type_mat"]. "</td><td>" . $row["sn"] . " </td><td> ". $row["date_commande"] . " </td><td> ". $row["date_reception"] . " </td><td> ". $row["fournisseur"]." </td> </tr> ";
     }
 } else {
     echo "0 results";
