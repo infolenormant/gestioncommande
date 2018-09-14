@@ -46,26 +46,27 @@
 <h2>STOCK SERVICE INFORMATIQUE</h2>
 <p>Les éléments affichés sont seulement les matériels en stock</p>
 
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un matériel" title="Entrer un numéro commande">
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Rechercher un matériel" title="Entrer un numéro de commande">
 
 <table id="myTable">
   <tr class="header">
     <th style="width:15%;">Commande</th>
-    <th style="width:20%;">Materiel</th>
+    <th style="width:14%;">Materiel</th>
     <th style="width:15%;">SN</th>
-    <th style="width:15%;">Date de Commande</th>
-    <th style="width:15%;">Date de reception</th>
-    <th style="width:20%;">Fournisseur</th>
+    <th style="width:14%;">Date de Commande</th>
+    <th style="width:14%;">Date de reception</th>
+    <th style="width:14%;">Fournisseur</th>
+    <th style="width:14%;">Etat</th>
 
   </tr>
   <?php
-    $sql = "SELECT TYPE_MAT, SN, Commande, Date_commande, Date_reception, Fournisseur_ID FROM gestion_commande WHERE etat='stock'";
+    $sql = "SELECT TYPE_MAT, SN, Commande, Date_commande, Date_reception, Fournisseur_ID, etat FROM gestion_commande";
     $result = $bdd->query($sql);
     $count = $result->rowCount();
     if ($count > 0) {
     // output data of each row
     while($row = $result->fetch()) {
-        echo "<tr> <td>". $row["Commande"]. "</td><td>". $row["TYPE_MAT"]. "</td><td>" . $row["SN"] . " </td><td> ". $row["Date_commande"] . " </td><td> ". $row["Date_reception"] . " </td><td> ". $row["Fournisseur_ID"]." </td> </tr> ";
+        echo "<tr> <td>". $row["Commande"]. "</td><td>". $row["TYPE_MAT"]. "</td><td>" . $row["SN"] . " </td><td> ". $row["Date_commande"] . " </td><td> ". $row["Date_reception"] ." </td><td> ". $row["Fournisseur_ID"] ." </td><td> ". $row["etat"] . " </td> </tr> ";
     }
 } else {
     echo "0 results";
