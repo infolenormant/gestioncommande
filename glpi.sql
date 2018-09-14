@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Sep 12, 2018 at 01:08 PM
--- Server version: 5.7.21
--- PHP Version: 5.6.35
+-- Client :  127.0.0.1
+-- Généré le :  Ven 14 Septembre 2018 à 14:59
+-- Version du serveur :  5.7.14
+-- Version de PHP :  5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,36 +17,50 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `glpi`
+-- Base de données :  `glpi`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gestion_commande`
+-- Structure de la table `gestion_commande`
 --
 
-DROP TABLE IF EXISTS `gestion_commande`;
-CREATE TABLE IF NOT EXISTS `gestion_commande` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `SN` varchar(255) DEFAULT NULL,
-  `Commande` varchar(255) DEFAULT NULL,
-  `Date_commande` date DEFAULT NULL,
-  `Date_reception` date NOT NULL,
-  `Fournisseur_ID` int(11) NOT NULL,
-  `etat` tinyint(1) NOT NULL,
-  PRIMARY KEY (`ID`)
+CREATE TABLE `gestion_commande` (
+  `ID` int(11) NOT NULL,
+  `type_mat` varchar(255) NOT NULL,
+  `sn` varchar(255) DEFAULT NULL,
+  `commande` varchar(255) DEFAULT NULL,
+  `date_commande` date DEFAULT NULL,
+  `date_reception` date NOT NULL,
+  `fournisseur` int(11) NOT NULL,
+  `etat` varchar(255) NOT NULL DEFAULT 'stock'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Contenu de la table `gestion_commande`
+--
+
+INSERT INTO `gestion_commande` (`ID`, `type_mat`, `sn`, `commande`, `date_commande`, `date_reception`, `fournisseur`, `etat`) VALUES
+(13, 'COMPUTER', 'S0590027\r', '1111111', '2018-09-10', '2018-09-13', 1, 'stock'),
+(14, 'MONITOR', '3524891908032\r', '1111111', '2018-09-10', '2018-09-13', 1, 'stock'),
+(15, 'COMPUTER', '5060030290913\r', '1111111', '2018-09-10', '2018-09-13', 1, 'parc'),
+(16, 'COMPUTER', '3524891908032\r', '22222', '2018-08-27', '2018-08-28', 2, 'stock'),
+(17, 'COMPUTER', '5060030290913\r', '22222', '2018-08-27', '2018-08-28', 2, 'stock'),
+(18, 'COMPUTER', 'CEGXV01CD7J0RE\r', '22222', '2018-08-27', '2018-08-28', 2, 'stock'),
+(19, 'COMPUTER', 'JN1DA51U1VDG12745DL\r', '33333', '2018-07-18', '2018-07-20', 3, 'stock'),
+(20, 'COMPUTER', '156DAEB500E2B\r', '33333', '2018-07-18', '2018-07-20', 3, 'stock'),
+(21, 'COMPUTER', '6BALR51B5YZC49\r', '33333', '2018-07-18', '2018-07-20', 3, 'stock'),
+(22, 'COMPUTER', 'CN07BN4400719BSK28F9JJ821\r', '33333', '2018-07-18', '2018-07-20', 3, 'stock');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `glpi_computers`
+-- Structure de la table `glpi_computers`
 --
 
-DROP TABLE IF EXISTS `glpi_computers`;
-CREATE TABLE IF NOT EXISTS `glpi_computers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `glpi_computers` (
+  `id` int(11) NOT NULL,
   `entities_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `serial` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -76,35 +88,11 @@ CREATE TABLE IF NOT EXISTS `glpi_computers` (
   `ticket_tco` decimal(20,4) DEFAULT '0.0000',
   `uuid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `date_creation` datetime DEFAULT NULL,
-  `is_recursive` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `date_mod` (`date_mod`),
-  KEY `name` (`name`),
-  KEY `is_template` (`is_template`),
-  KEY `autoupdatesystems_id` (`autoupdatesystems_id`),
-  KEY `domains_id` (`domains_id`),
-  KEY `entities_id` (`entities_id`),
-  KEY `manufacturers_id` (`manufacturers_id`),
-  KEY `groups_id` (`groups_id`),
-  KEY `users_id` (`users_id`),
-  KEY `locations_id` (`locations_id`),
-  KEY `computermodels_id` (`computermodels_id`),
-  KEY `networks_id` (`networks_id`),
-  KEY `states_id` (`states_id`),
-  KEY `users_id_tech` (`users_id_tech`),
-  KEY `computertypes_id` (`computertypes_id`),
-  KEY `is_deleted` (`is_deleted`),
-  KEY `groups_id_tech` (`groups_id_tech`),
-  KEY `is_dynamic` (`is_dynamic`),
-  KEY `serial` (`serial`),
-  KEY `otherserial` (`otherserial`),
-  KEY `uuid` (`uuid`),
-  KEY `date_creation` (`date_creation`),
-  KEY `is_recursive` (`is_recursive`)
-) ENGINE=InnoDB AUTO_INCREMENT=1852 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `is_recursive` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `glpi_computers`
+-- Contenu de la table `glpi_computers`
 --
 
 INSERT INTO `glpi_computers` (`id`, `entities_id`, `name`, `serial`, `otherserial`, `contact`, `contact_num`, `users_id_tech`, `groups_id_tech`, `comment`, `date_mod`, `autoupdatesystems_id`, `locations_id`, `domains_id`, `networks_id`, `computermodels_id`, `computertypes_id`, `is_template`, `template_name`, `manufacturers_id`, `is_deleted`, `is_dynamic`, `users_id`, `groups_id`, `states_id`, `ticket_tco`, `uuid`, `date_creation`, `is_recursive`) VALUES
@@ -1968,12 +1956,11 @@ INSERT INTO `glpi_computers` (`id`, `entities_id`, `name`, `serial`, `otherseria
 -- --------------------------------------------------------
 
 --
--- Table structure for table `glpi_infocoms`
+-- Structure de la table `glpi_infocoms`
 --
 
-DROP TABLE IF EXISTS `glpi_infocoms`;
-CREATE TABLE IF NOT EXISTS `glpi_infocoms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `glpi_infocoms` (
+  `id` int(11) NOT NULL,
   `items_id` int(11) NOT NULL DEFAULT '0',
   `itemtype` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `entities_id` int(11) NOT NULL DEFAULT '0',
@@ -2002,29 +1989,18 @@ CREATE TABLE IF NOT EXISTS `glpi_infocoms` (
   `date_mod` datetime DEFAULT NULL,
   `date_creation` datetime DEFAULT NULL,
   `decommission_date` datetime DEFAULT NULL,
-  `businesscriticities_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unicity` (`itemtype`,`items_id`),
-  KEY `buy_date` (`buy_date`),
-  KEY `alert` (`alert`),
-  KEY `budgets_id` (`budgets_id`),
-  KEY `suppliers_id` (`suppliers_id`),
-  KEY `entities_id` (`entities_id`),
-  KEY `is_recursive` (`is_recursive`),
-  KEY `date_mod` (`date_mod`),
-  KEY `date_creation` (`date_creation`),
-  KEY `businesscriticities_id` (`businesscriticities_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28556 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `businesscriticities_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `glpi_infocoms`
+-- Contenu de la table `glpi_infocoms`
 --
 
 INSERT INTO `glpi_infocoms` (`id`, `items_id`, `itemtype`, `entities_id`, `is_recursive`, `buy_date`, `use_date`, `warranty_duration`, `warranty_info`, `suppliers_id`, `order_number`, `delivery_number`, `immo_number`, `value`, `warranty_value`, `sink_time`, `sink_type`, `sink_coeff`, `comment`, `bill`, `budgets_id`, `alert`, `order_date`, `delivery_date`, `inventory_date`, `warranty_date`, `date_mod`, `date_creation`, `decommission_date`, `businesscriticities_id`) VALUES
 (1, 1, 'NetworkEquipment', 0, 0, NULL, '2017-05-22', 24, 'a valider', 4, 'MM170104-04', NULL, NULL, '7354.0000', '3916.0000', 5, 2, 0, 'UTM security pack avec echange express J+1 ==&gt; 3 ans', NULL, 0, 4, NULL, '2017-05-22', NULL, '2017-05-22', NULL, NULL, NULL, 0),
 (2, 1, 'Monitor', 0, 0, '2017-12-22', NULL, 0, NULL, 1, '71222133019J', NULL, NULL, '81.8700', '0.0000', 0, 0, 0, NULL, 'FV201700640319', 0, 0, '2017-12-22', '2017-12-27', NULL, NULL, '2017-12-27 10:25:47', '2017-12-27 10:14:46', NULL, 0),
 (3, 1636, 'Computer', 0, 0, '2018-08-31', NULL, 0, NULL, 1, '9876543210', NULL, NULL, '1000.0000', '0.0000', 0, 0, 0, NULL, '1234560', 0, 0, '2018-09-01', '2018-09-02', NULL, NULL, '2018-09-12 09:47:51', '2017-12-27 16:20:01', NULL, 0),
-(9, 29, 'Monitor', 0, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '0.0000', '0.0000', 0, 0, 0, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, '2017-12-28 10:15:15', '2017-12-28 10:15:15', NULL, 0),
+(9, 29, 'Monitor', 0, 0, NULL, NULL, 0, NULL, 0, '111111', NULL, NULL, '0.0000', '0.0000', 0, 0, 0, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, '2017-12-28 10:15:15', '2017-12-28 10:15:15', NULL, 0),
 (10, 1662, 'Computer', 0, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '0.0000', '0.0000', 0, 0, 0, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, '2017-12-28 10:46:30', '2017-12-28 10:46:30', NULL, 0),
 (11, 384, 'Item_DeviceFirmware', 0, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '0.0000', '0.0000', 0, 0, 0, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, '2017-12-28 10:46:30', '2017-12-28 10:46:30', NULL, 0),
 (12, 63822, 'Item_DeviceProcessor', 0, 0, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '0.0000', '0.0000', 0, 0, 0, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, '2017-12-28 10:46:30', '2017-12-28 10:46:30', NULL, 0),
@@ -13516,12 +13492,249 @@ INSERT INTO `glpi_infocoms` (`id`, `items_id`, `itemtype`, `entities_id`, `is_re
 -- --------------------------------------------------------
 
 --
--- Table structure for table `glpi_suppliers`
+-- Structure de la table `glpi_monitors`
 --
 
-DROP TABLE IF EXISTS `glpi_suppliers`;
-CREATE TABLE IF NOT EXISTS `glpi_suppliers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `glpi_monitors` (
+  `id` int(11) NOT NULL,
+  `entities_id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `date_mod` datetime DEFAULT NULL,
+  `contact` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `contact_num` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `users_id_tech` int(11) NOT NULL DEFAULT '0',
+  `groups_id_tech` int(11) NOT NULL DEFAULT '0',
+  `comment` text COLLATE utf8_unicode_ci,
+  `serial` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `otherserial` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `size` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `have_micro` tinyint(1) NOT NULL DEFAULT '0',
+  `have_speaker` tinyint(1) NOT NULL DEFAULT '0',
+  `have_subd` tinyint(1) NOT NULL DEFAULT '0',
+  `have_bnc` tinyint(1) NOT NULL DEFAULT '0',
+  `have_dvi` tinyint(1) NOT NULL DEFAULT '0',
+  `have_pivot` tinyint(1) NOT NULL DEFAULT '0',
+  `have_hdmi` tinyint(1) NOT NULL DEFAULT '0',
+  `have_displayport` tinyint(1) NOT NULL DEFAULT '0',
+  `locations_id` int(11) NOT NULL DEFAULT '0',
+  `monitortypes_id` int(11) NOT NULL DEFAULT '0',
+  `monitormodels_id` int(11) NOT NULL DEFAULT '0',
+  `manufacturers_id` int(11) NOT NULL DEFAULT '0',
+  `is_global` tinyint(1) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `is_template` tinyint(1) NOT NULL DEFAULT '0',
+  `template_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `users_id` int(11) NOT NULL DEFAULT '0',
+  `groups_id` int(11) NOT NULL DEFAULT '0',
+  `states_id` int(11) NOT NULL DEFAULT '0',
+  `ticket_tco` decimal(20,4) DEFAULT '0.0000',
+  `is_dynamic` tinyint(1) NOT NULL DEFAULT '0',
+  `date_creation` datetime DEFAULT NULL,
+  `is_recursive` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `glpi_monitors`
+--
+
+INSERT INTO `glpi_monitors` (`id`, `entities_id`, `name`, `date_mod`, `contact`, `contact_num`, `users_id_tech`, `groups_id_tech`, `comment`, `serial`, `otherserial`, `size`, `have_micro`, `have_speaker`, `have_subd`, `have_bnc`, `have_dvi`, `have_pivot`, `have_hdmi`, `have_displayport`, `locations_id`, `monitortypes_id`, `monitormodels_id`, `manufacturers_id`, `is_global`, `is_deleted`, `is_template`, `template_name`, `users_id`, `groups_id`, `states_id`, `ticket_tco`, `is_dynamic`, `date_creation`, `is_recursive`) VALUES
+(1, 0, 'ECRAN', '2017-12-27 10:49:22', '', '', 0, 0, '', 'MMT1LEE0017320543E4226', 'MONITOR22-1', '22.00', 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 9, 1, 0, 0, NULL, 0, 0, 2, '0.0000', 0, '2017-12-27 10:07:29', 0),
+(2, 0, 'S22D300', '2018-07-20 11:56:00', 'blefevre@LENORMANT', NULL, 0, 0, NULL, '30305a4c', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 29, 0, 0, 36, 0, 0, 0, NULL, 10, 0, 0, '0.0000', 1, '2017-12-27 12:00:25', 0),
+(3, 0, '2250W', '2018-07-20 11:39:38', 'nlemaire@LENORMANT', NULL, 0, 0, NULL, 'CVBC9HA069678', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 85, 0, 0, 0, NULL, 130, 0, 0, '0.0000', 1, '2017-12-27 16:21:05', 0),
+(4, 0, 'ASUS VS247', '2018-07-20 11:50:27', 'vspennato@LENORMANT', NULL, 0, 0, NULL, 'H4LMTF146864', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 57, 0, 0, 116, 0, 0, 0, NULL, 20, 0, 0, '0.0000', 1, '2017-12-27 18:47:04', 0),
+(5, 0, '2276W', '2018-07-20 11:41:33', 'scarvalho@LENORMANT', NULL, 0, 0, NULL, 'D06E9BA006728', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 85, 0, 0, 0, NULL, 75, 0, 0, '0.0000', 1, '2017-12-28 03:28:59', 0),
+(6, 0, 'W1946', '2018-07-20 12:18:57', 'bhullin@LENORMANT', NULL, 0, 0, NULL, '0006672f', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 150, 0, 0, 0, NULL, 303, 0, 0, '0.0000', 1, '2017-12-28 03:28:59', 0),
+(7, 0, 'HP 22kd', '2018-07-02 06:44:34', 'sfaburel@LENORMANT', NULL, 0, 0, NULL, 'CNC7140P0B', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 163, 0, 0, 0, NULL, 64, 0, 0, '0.0000', 1, '2017-12-28 07:05:26', 0),
+(8, 0, 'HP 2011', '2018-08-24 09:28:44', 'alefebvre@LENORMANT', NULL, 0, 0, NULL, 'CNC125Q47L', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 163, 0, 0, 0, NULL, 326, 0, 0, '0.0000', 1, '2017-12-28 07:42:39', 0),
+(9, 0, 'Acer P195HQL', '2018-07-20 11:43:20', 'klouraoui@LENORMANT', NULL, 0, 0, NULL, 'LL90W0024300', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 173, 0, 0, 0, NULL, 195, 0, 0, '0.0000', 1, '2017-12-28 07:43:11', 0),
+(10, 0, 'ASUS VS228', '2018-07-20 13:57:28', 'mag2-lmb@LENORMANT', NULL, 0, 0, NULL, 'E8LMTF150643', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 116, 0, 0, 0, NULL, 172, 0, 0, '0.0000', 1, '2017-12-28 07:43:11', 0),
+(11, 0, 'PHL 223V5', '2018-07-20 12:04:16', 'jdebacq@LENORMANT', NULL, 0, 0, NULL, 'UK01623026377', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 177, 0, 0, 0, NULL, 212, 0, 0, '0.0000', 1, '2017-12-28 07:45:29', 0),
+(12, 0, '2250W', '2018-07-20 11:43:20', 'magasin1-LMB@LENORMANT', NULL, 0, 0, NULL, 'CVBC9HA069874', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 85, 0, 0, 0, NULL, 163, 0, 0, '0.0000', 1, '2017-12-28 07:50:04', 0),
+(13, 0, 'W1934 ', '2018-07-02 08:14:31', 'tvantheemsche@LENORMANT', NULL, 0, 0, NULL, '0001f6dd', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 150, 0, 0, 0, NULL, 31, 0, 0, '0.0000', 1, '2017-12-28 07:52:51', 0),
+(14, 0, 'PHL 223V5', '2018-07-20 12:10:01', 'bcaiez@LENORMANT', NULL, 0, 0, NULL, 'UK01623026588', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 177, 0, 0, 0, NULL, 306, 0, 0, '0.0000', 1, '2017-12-28 07:57:45', 0),
+(15, 0, 'HP 2011', '2018-07-20 11:58:21', 'ssoulage@LENORMANT', NULL, 0, 0, NULL, 'CNC125Q3W8', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 163, 0, 0, 0, NULL, 51, 0, 0, '0.0000', 1, '2017-12-28 07:59:30', 0),
+(16, 0, 'HP E202', '2018-07-20 11:45:26', 'clefevre@LENORMANT', NULL, 0, 0, NULL, '6CM6232DKG', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 163, 0, 0, 0, NULL, 274, 0, 0, '0.0000', 1, '2017-12-28 08:02:05', 0),
+(17, 0, 'ASUS VW193D', '2017-12-28 08:13:51', 'ccaurier@LENORMANT', NULL, 0, 0, NULL, '86LMTF133060', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 116, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2017-12-28 08:13:51', 0),
+(18, 0, 'L19T-1 LED', '2018-07-20 11:45:26', 'scaron@LENORMANT', NULL, 0, 0, NULL, 'YV3A048659', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 215, 0, 0, 0, NULL, 76, 0, 0, '0.0000', 1, '2017-12-28 08:18:18', 0),
+(19, 0, 'Hanns.G Hi221', '2018-07-02 09:03:13', 'kubaldini@LENORMANT', NULL, 0, 0, NULL, '738MJ3YY00856', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 226, 0, 0, 0, NULL, 194, 0, 0, '0.0000', 1, '2017-12-28 08:20:56', 0),
+(20, 0, '2270W', '2018-07-20 11:38:07', 'avallion@LENORMANT', NULL, 0, 0, NULL, 'FMYD7HA042845', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 85, 0, 0, 0, NULL, 313, 0, 0, '0.0000', 1, '2017-12-28 08:22:58', 0),
+(21, 0, 'SyncMaster', '2017-12-28 08:30:38', 'szig@LENORMANT', NULL, 0, 0, NULL, 'HMCQ210206', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 36, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2017-12-28 08:30:38', 0),
+(22, 0, '2280W', '2018-07-20 11:53:01', 'vlecocq@LENORMANT', NULL, 0, 0, NULL, 'B80H2GA000281', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 85, 0, 0, 0, NULL, 24, 0, 0, '0.0000', 1, '2017-12-28 08:44:53', 0),
+(23, 0, 'W1934 ', '2018-07-20 12:05:59', 'mpatrat@LENORMANT', NULL, 0, 0, NULL, '00001c57', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 150, 0, 0, 0, NULL, 144, 0, 0, '0.0000', 1, '2017-12-28 08:46:01', 0),
+(24, 0, 'SyncMaster', '2018-07-05 13:37:58', 'sfedally@LENORMANT', NULL, 0, 0, NULL, 'H9GP937699', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 36, 0, 0, 0, NULL, 63, 0, 0, '0.0000', 1, '2017-12-28 08:48:15', 0),
+(25, 0, 'SA300/SA350', '2018-07-20 13:51:33', 'rnabart@LENORMANT', NULL, 0, 0, NULL, 'H9XBB08282', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 53, 0, 0, 36, 0, 0, 0, NULL, 85, 0, 0, '0.0000', 1, '2017-12-28 09:04:07', 0),
+(26, 0, 'PHL 223V5', '2018-09-13 10:07:14', 'mag3-ban@LENORMANT', NULL, 0, 0, NULL, 'UK01623025691', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 177, 0, 0, 0, NULL, 170, 0, 0, '0.0000', 1, '2017-12-28 09:21:38', 0),
+(27, 0, 'VA1913 series', '2017-12-28 09:33:45', 'nsoyer@LENORMANT', NULL, 0, 0, NULL, 'RYZ101902425', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 265, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2017-12-28 09:33:45', 0),
+(28, 0, 'L1718S ', '2018-07-20 12:11:19', 'bfaget@LENORMANT', NULL, 0, 0, NULL, '0002605f', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 150, 0, 0, 0, NULL, 304, 0, 0, '0.0000', 1, '2017-12-28 09:56:13', 0),
+(29, 0, 'PHL 223V5', '2018-09-13 09:00:04', 'fchevallier@LENORMANT', NULL, 0, 0, NULL, 'UKC1409058559', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 177, 0, 0, 0, NULL, 240, 0, 0, '0.0000', 1, '2017-12-28 10:15:15', 0),
+(30, 0, '2250W', '2018-07-20 11:56:41', 'sgourgousse@LENORMANT', NULL, 0, 0, NULL, 'CVBC9HA069875', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 49, 0, 0, 85, 0, 0, 0, NULL, 62, 0, 0, '0.0000', 1, '2017-12-28 10:46:30', 0),
+(31, 0, 'W1946', '2017-12-28 13:37:57', 'sfedally@LENORMANT', NULL, 0, 0, NULL, '0008c8f3', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 150, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2017-12-28 13:37:57', 0),
+(32, 0, 'HE225DPB', '2018-07-20 12:14:47', 'mplaneix@LENORMANT', NULL, 0, 0, NULL, '1234567890123', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 226, 0, 0, 0, NULL, 141, 0, 0, '0.0000', 1, '2017-12-28 13:53:26', 0),
+(33, 0, 'Philips 192EL', '2018-06-29 19:43:25', 'pointeuse@LENORMANT', NULL, 0, 0, NULL, 'DL41106261911', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 177, 0, 0, 0, NULL, 102, 0, 0, '0.0000', 1, '2017-12-28 15:25:47', 0),
+(34, 0, 'Philips 170S', '2018-07-02 07:10:35', 'egrenier@LENORMANT', NULL, 0, 0, NULL, 'AU30710007939', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 177, 0, 0, 0, NULL, 251, 0, 0, '0.0000', 1, '2017-12-29 06:25:30', 0),
+(35, 0, 'P196HQV', '2018-07-20 11:45:26', 'mlefebvre@LENORMANT', NULL, 0, 0, NULL, 'LQB0D0038500', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 173, 0, 0, 0, NULL, 146, 0, 0, '0.0000', 1, '2017-12-29 07:28:58', 0),
+(36, 0, '2250W', '2018-07-20 11:41:33', 'cpages@LENORMANT', NULL, 0, 0, NULL, 'CVBC9HA069876', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 85, 0, 0, 0, NULL, 271, 0, 0, '0.0000', 1, '2017-12-29 07:37:38', 0),
+(37, 0, 'L1750SQ ', '2018-07-02 07:36:46', 'trikal@LENORMANT', NULL, 0, 0, NULL, '0001aee5', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 150, 0, 0, 0, NULL, 32, 0, 0, '0.0000', 1, '2017-12-29 07:42:49', 0),
+(38, 0, 'HX191D', '2018-07-02 07:36:46', 'trikal@LENORMANT', NULL, 0, 0, NULL, '701GR3JY01734', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 226, 0, 0, 0, NULL, 32, 0, 0, '0.0000', 1, '2017-12-29 07:42:49', 0),
+(39, 0, 'K222HQL', '2018-07-20 12:13:10', 'mlatiste@LENORMANT', NULL, 0, 0, NULL, 'T5XEE0012422', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0, 173, 0, 0, 0, NULL, 147, 0, 0, '0.0000', 1, '2017-12-29 07:55:43', 0),
+(40, 0, '2250W', '2018-07-20 11:38:07', 'chackiere@LENORMANT', NULL, 0, 0, NULL, 'CVBC9HA069878', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 85, 0, 0, 0, NULL, 277, 0, 0, '0.0000', 1, '2017-12-29 08:05:34', 0),
+(41, 0, 'HP L1908w', '2018-07-20 12:17:50', 'egadenne@LENORMANT', NULL, 0, 0, NULL, '3CQ8471H2N', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 163, 0, 0, 0, NULL, 252, 0, 0, '0.0000', 1, '2017-12-29 08:15:21', 0),
+(42, 0, 'LG FULL HD', '2018-07-20 12:04:16', 'jlpaillart@LENORMANT', NULL, 0, 0, NULL, '507NTVS9K039', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 150, 0, 0, 0, NULL, 205, 0, 0, '0.0000', 1, '2017-12-29 08:24:33', 0),
+(43, 0, 'LG FULL HD', '2018-07-02 08:57:45', 'jlfalize@LENORMANT', NULL, 0, 0, NULL, '507NTEP9K028', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 150, 0, 0, 0, NULL, 206, 0, 0, '0.0000', 1, '2017-12-29 08:44:57', 0),
+(44, 0, 'HP L1908w', '2017-12-29 08:57:07', 'msperl@LENORMANT', NULL, 0, 0, NULL, '3CQ8512CL6', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 163, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2017-12-29 08:57:07', 0),
+(45, 0, 'S220HQL', '2018-07-20 11:58:21', 'jptinoco@LENORMANT', NULL, 0, 0, NULL, 'LYKEE0018506', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 173, 0, 0, 0, NULL, 200, 0, 0, '0.0000', 1, '2017-12-29 09:29:56', 0),
+(46, 0, 'HP 22kd', '2018-07-20 11:41:33', 'cgervoise@LENORMANT', NULL, 0, 0, NULL, 'CNC7140P07', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 163, 0, 0, 0, NULL, 280, 0, 0, '0.0000', 1, '2017-12-29 09:36:20', 0),
+(47, 0, '2280W', '2018-06-29 22:10:24', 'ccourty@LENORMANT', NULL, 0, 0, NULL, 'B80H2GA000280', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 85, 0, 0, 0, NULL, 288, 0, 0, '0.0000', 1, '2017-12-29 11:35:54', 0),
+(48, 0, 'HP V212a', '2018-07-20 11:36:02', 'ppapa@LENORMANT', NULL, 0, 0, NULL, 'CNC53903X3', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 163, 0, 0, 0, NULL, 101, 0, 0, '0.0000', 1, '2018-01-02 07:46:02', 0),
+(49, 0, 'SME1920N', '2018-07-02 09:13:16', 'ajouanin@LENORMANT', NULL, 0, 0, NULL, 'H9FZB11570', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 36, 0, 0, 0, NULL, 327, 0, 0, '0.0000', 1, '2018-01-02 08:13:35', 0),
+(50, 0, 'HP V212a', '2018-09-07 09:27:27', 'Magasin1@MAG1-GPP', NULL, 0, 0, NULL, 'CNC53903TZ', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 163, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-02 08:13:41', 0),
+(51, 0, 'PHL 223V5', '2018-07-20 11:50:27', 'mrohaut@LENORMANT', NULL, 0, 0, NULL, 'UKC1409058071', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 57, 0, 0, 177, 0, 0, 0, NULL, 140, 0, 0, '0.0000', 1, '2018-01-02 08:13:54', 0),
+(52, 0, 'PHL 223V5', '2018-07-02 08:25:23', 'icourseaux@LENORMANT', NULL, 0, 0, NULL, 'UKC1409058561', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 177, 0, 0, 0, NULL, 221, 0, 0, '0.0000', 1, '2018-01-02 08:17:28', 0),
+(53, 0, 'SyncMaster', '2018-01-02 08:34:51', 'mgirardeau@LENORMANT', NULL, 0, 0, NULL, 'H9XQC00025', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-02 08:34:51', 0),
+(54, 0, 'L1742 ', '2018-07-02 09:30:53', 'schagnon@LENORMANT', NULL, 0, 0, NULL, '0006b566', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 150, 0, 0, 0, NULL, 74, 0, 0, '0.0000', 1, '2018-01-02 08:49:19', 0),
+(55, 0, 'CHHWJT', '2018-01-02 08:52:36', 'scoppin@LENORMANT', NULL, 0, 0, NULL, '01000000', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 357, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-02 08:52:36', 0),
+(56, 0, 'S22D300', '2018-07-20 11:34:35', 'fbouchart@LENORMANT', NULL, 0, 0, NULL, 'HKAFA04609', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 36, 0, 0, 0, NULL, 242, 0, 0, '0.0000', 1, '2018-01-02 09:41:24', 0),
+(57, 0, 'PHL 223V5', '2018-07-02 10:22:01', 'afontaine@LENORMANT', NULL, 0, 0, NULL, 'UKC1409058558', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 177, 0, 0, 0, NULL, 333, 0, 0, '0.0000', 1, '2018-01-02 10:29:10', 0),
+(58, 0, 'Acer K222HQL', '2018-07-20 11:32:59', 'aspannaccini@LENORMANT', NULL, 0, 0, NULL, 'T1LEE0014226', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 173, 0, 0, 0, NULL, 320, 0, 0, '0.0000', 1, '2018-01-02 15:23:36', 0),
+(59, 0, '2280W', '2018-07-02 09:06:39', 'bbenlala@LENORMANT', NULL, 0, 0, NULL, 'B80H2GA000268', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 85, 0, 0, 0, NULL, 309, 0, 0, '0.0000', 1, '2018-01-03 08:06:36', 0),
+(60, 0, 'S22D300', '2018-07-20 11:36:02', 'bsomon@LENORMANT', NULL, 0, 0, NULL, 'HKAFA04596', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 36, 0, 0, 0, NULL, 299, 0, 0, '0.0000', 1, '2018-01-03 08:35:41', 0),
+(61, 0, 'VX2476 Series', '2018-08-03 18:03:48', 'pdumas@LENORMANT', NULL, 0, 0, NULL, 'UPA173600013', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 43, 0, 0, 265, 0, 0, 0, NULL, 111, 0, 0, '0.0000', 1, '2018-01-03 08:46:54', 0),
+(62, 0, '2270W', '2018-07-20 11:56:00', 'mpalin@LENORMANT', NULL, 0, 0, NULL, 'FXVF8HA074763', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 29, 0, 0, 85, 0, 0, 0, NULL, 145, 0, 0, '0.0000', 1, '2018-01-03 09:28:52', 0),
+(63, 0, 'HG221A', '2018-07-20 13:48:51', 'scoppin@LENORMANT', NULL, 0, 0, NULL, '908MW3JY06429', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 226, 0, 0, 0, NULL, 72, 0, 0, '0.0000', 1, '2018-01-03 09:28:51', 0),
+(64, 0, 'BenQ GW2270', '2018-09-05 20:42:02', 'mcaussieu@LENORMANT', NULL, 0, 0, NULL, 'S7G04074SL0', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 430, 0, 0, 0, NULL, 159, 0, 0, '0.0000', 1, '2018-01-03 11:14:57', 0),
+(65, 0, 'Philips 247EL', '2018-09-05 20:42:02', 'mcaussieu@LENORMANT', NULL, 0, 0, NULL, 'AU01246008797', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 177, 0, 0, 0, NULL, 159, 0, 0, '0.0000', 1, '2018-01-03 11:14:57', 0),
+(66, 0, '2280W', '2018-07-20 11:45:26', 'vravallet@LENORMANT', NULL, 0, 0, NULL, 'B80H2GA000275', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 85, 0, 0, 0, NULL, 21, 0, 0, '0.0000', 1, '2018-01-03 13:34:40', 0),
+(67, 0, 'L1734 ', '2018-01-04 11:26:28', 'mconan@LENORMANT', NULL, 0, 0, NULL, '00000d7c', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 150, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-04 11:26:28', 0),
+(68, 0, 'SyncMaster', '2018-08-17 13:44:46', 'msontot@LENORMANT', NULL, 0, 0, NULL, 'H1AK500000', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, NULL, 138, 0, 0, '0.0000', 1, '2018-01-04 13:00:39', 0),
+(69, 0, 'JT198x9-1B', '2018-06-30 11:45:57', 'mag3-th@LENORMANT', NULL, 0, 0, NULL, '7824TI000089', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 454, 0, 0, 0, NULL, 169, 0, 0, '0.0000', 1, '2018-01-04 14:08:27', 0),
+(70, 0, 'Philips 170S', '2018-08-01 09:27:48', 'ndenis@LENORMANT', NULL, 0, 0, NULL, 'AU30721006607', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 177, 0, 0, 0, NULL, 133, 0, 0, '0.0000', 1, '2018-01-04 16:45:50', 0),
+(71, 0, 'Philips 190C', '2018-07-20 11:53:01', 'sbruyant@LENORMANT', NULL, 0, 0, NULL, 'BZ60723620391', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 177, 0, 0, 0, NULL, 77, 0, 0, '0.0000', 1, '2018-01-05 08:22:01', 0),
+(72, 0, 'HP V213a', '2018-07-20 11:56:00', 'frenaux@LENORMANT', NULL, 0, 0, NULL, 'CNC7110DK3', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 29, 0, 0, 456, 0, 0, 0, NULL, 8, 0, 0, '0.0000', 1, '2018-01-05 09:39:35', 0),
+(73, 0, '2250W', '2018-09-05 11:57:12', 'Szimber@LENORMANT', NULL, 0, 0, NULL, 'CVBC9HA069624', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 85, 0, 0, 0, NULL, 47, 0, 0, '0.0000', 1, '2018-01-05 10:27:58', 0),
+(74, 0, 'DELL E176FP', '2018-06-29 21:42:26', 'fax-sa@LENORMANT', NULL, 0, 0, NULL, '6418063F1Z3L', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, NULL, 245, 0, 0, '0.0000', 1, '2018-01-05 18:19:39', 0),
+(75, 0, 'P1220', '2018-02-13 08:14:52', 'scoppin@LENORMANT', NULL, 0, 0, NULL, '15200519', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 173, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-08 07:49:42', 0),
+(76, 0, 'HP L1906', '2018-01-08 08:27:48', 'dpopping@LENORMANT', NULL, 0, 0, NULL, 'CNN7130240', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 163, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-08 08:27:48', 0),
+(77, 0, 'Philips 190S', '2018-09-12 18:42:49', 'nlemÃ©e@LENORMANT', NULL, 0, 0, NULL, 'BZ30706420637', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 177, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-08 10:29:50', 0),
+(78, 0, 'W1934 ', '2018-09-13 07:53:47', 'ccheroy@LENORMANT', NULL, 0, 0, NULL, '0000a329', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 150, 0, 0, 0, NULL, 290, 0, 0, '0.0000', 1, '2018-01-08 15:22:13', 0),
+(79, 0, 'VA1913 series', '2018-07-20 12:10:01', 'pbaurin@LENORMANT', NULL, 0, 0, NULL, 'RYZ101902408', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 265, 0, 0, 0, NULL, 118, 0, 0, '0.0000', 1, '2018-01-09 08:05:28', 0),
+(80, 0, '', '2018-01-09 09:49:33', '', '', 0, 0, '', '??T"REEàà&è"éàBFDD\'é&_', '', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, NULL, 0, 0, 0, '0.0000', 0, '2018-01-09 09:43:42', 0),
+(81, 0, '', '2018-01-09 09:49:33', '', '', 0, 0, '', '??T"REEàà&è"éàBFDD\'é&_', '', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, NULL, 0, 0, 0, '0.0000', 0, '2018-01-09 09:43:50', 0),
+(82, 0, '', '2018-01-09 09:49:33', '', '', 0, 0, '', '??T"REEàà&è"éàBFDD\'é&_', '', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, NULL, 0, 0, 0, '0.0000', 0, '2018-01-09 09:43:55', 0),
+(83, 0, '', '2018-01-09 09:49:33', '', '', 0, 0, '', 'è"éà\'ç&&è\'é', '', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, NULL, 0, 0, 0, '0.0000', 0, '2018-01-09 09:44:00', 0),
+(84, 0, '', '2018-01-09 09:49:33', '', '', 0, 0, '', 'MMT3REE0017320BFDD4218', '', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, NULL, 0, 0, 0, '0.0000', 0, '2018-01-09 09:46:44', 0),
+(85, 0, 'DG968411423FR', '2018-01-09 09:48:34', '', '', 0, 0, '', '', '', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 0, '2018-01-09 09:48:34', 0),
+(86, 0, 'MMT3REE0017320BFDD4218', '2018-01-09 09:49:57', '', '', 0, 0, '', '', '', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, NULL, 0, 0, 0, '0.0000', 0, '2018-01-09 09:48:50', 0),
+(87, 0, 'TLP-W SERIES', '2018-09-11 10:11:01', 'alenormant@LENORMANT', NULL, 0, 0, NULL, '01010101', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 319, 0, 0, 0, NULL, 325, 0, 0, '0.0000', 1, '2018-01-09 09:49:25', 0),
+(88, 0, 'HP V213a', '2018-09-12 22:09:32', 'mag5-ban@LENORMANT', NULL, 0, 0, NULL, 'CNC7110CM2', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 456, 0, 0, 0, NULL, 167, 0, 0, '0.0000', 1, '2018-01-09 10:03:51', 0),
+(89, 0, 'HP L1906', '2018-08-22 14:18:31', 'mfeyer@LENORMANT', NULL, 0, 0, NULL, 'CND7090DRQ', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 163, 0, 0, 0, NULL, 152, 0, 0, '0.0000', 1, '2018-01-10 09:41:07', 0),
+(90, 0, '2280W', '2018-07-20 12:13:10', 'Atelier@ATELIER1-GPA', NULL, 0, 0, NULL, 'B80H2GA000523', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0, 85, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-11 15:43:34', 0),
+(91, 0, 'PHL 223V5', '2018-07-20 11:45:26', 'vprevost@LENORMANT', NULL, 0, 0, NULL, 'UK01623026381', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 177, 0, 0, 0, NULL, 22, 0, 0, '0.0000', 1, '2018-01-12 07:50:16', 0),
+(92, 0, 'HP L1908w', '2018-01-12 09:06:21', 'pdelarche@LENORMANT', NULL, 0, 0, NULL, '3CQ8471H1P', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 163, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-12 09:06:21', 0),
+(93, 0, 'LCD PROJECTOR  800x600', '2018-01-12 10:31:17', 'clenormant@LENORMANT', NULL, 0, 0, NULL, '00000042', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 485, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-12 10:31:17', 0),
+(94, 0, 'X193HQL', '2018-09-06 08:27:44', 'rseguy@LENORMANT', NULL, 0, 0, NULL, 'LM00C0034000', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 173, 0, 0, 0, NULL, 79, 0, 0, '0.0000', 1, '2018-01-15 08:41:39', 0),
+(95, 0, 'V226HQL', '2018-07-20 13:50:52', 'pcailleux@LENORMANT', NULL, 0, 0, NULL, 'T0WEE03424A6', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 173, 0, 0, 0, NULL, 114, 0, 0, '0.0000', 1, '2018-01-15 10:38:16', 0),
+(96, 0, 'MIRAI 417N200', '2018-07-20 11:53:01', 'agrenier@LENORMANT', NULL, 0, 0, NULL, 'ML417A7031487', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 491, 0, 0, 0, NULL, 329, 0, 0, '0.0000', 1, '2018-01-16 06:28:03', 0),
+(97, 0, 'S22D300', '2018-07-20 13:49:20', 'amarechal@LENORMANT', NULL, 0, 0, NULL, 'HKAFA04611', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 36, 0, 0, 0, NULL, 324, 0, 0, '0.0000', 1, '2018-01-16 08:01:46', 0),
+(98, 0, 'ACER KA220HQ', '2018-07-20 11:36:02', 'fsaunier@LENORMANT', NULL, 0, 0, NULL, 'T3REE0014218', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 173, 0, 0, 0, NULL, 233, 0, 1, '0.0000', 1, '2018-01-16 10:54:00', 0),
+(99, 0, 'K222HQL', '2018-07-20 11:38:07', 'utilisateur@Atelier1-LMM', NULL, 0, 0, NULL, 'T0EEE0058582', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 173, 0, 0, 0, NULL, 28, 0, 0, '0.0000', 1, '2018-01-17 09:08:24', 0),
+(100, 0, 'W1946', '2018-07-20 12:17:50', 'vkiers@LENORMANT', NULL, 0, 0, NULL, '0008c8ee', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 150, 0, 0, 0, NULL, 25, 0, 0, '0.0000', 1, '2018-01-17 09:38:51', 0),
+(101, 0, 'BenQ GW2270', '2018-01-17 16:16:31', 'Administrateur@MDUPUIS-SABVS', NULL, 0, 0, NULL, 'S7G04076SL0', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 430, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-17 16:16:31', 0),
+(102, 0, 'SyncMaster', '2018-07-20 11:36:02', 'atelier-sa@LENORMANT', NULL, 0, 0, NULL, 'HMCQ208441', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 36, 0, 0, 0, NULL, 316, 0, 0, '0.0000', 1, '2018-01-18 10:28:14', 0),
+(103, 0, 'HP L1906', '2018-07-20 11:32:59', 'nmolines@LENORMANT', NULL, 0, 0, NULL, 'CND7090DSB', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 163, 0, 0, 0, NULL, 127, 0, 0, '0.0000', 1, '2018-01-19 11:54:37', 0),
+(104, 0, 'S22D300', '2018-08-01 08:55:52', 'swiart@LENORMANT', NULL, 0, 0, NULL, 'HKAFA04818', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, NULL, 49, 0, 0, '0.0000', 1, '2018-01-22 08:47:10', 0),
+(105, 0, 'HP V213a', '2018-07-20 11:34:35', 'edanjou@LENORMANT', NULL, 0, 0, NULL, 'CNC71017YY', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 456, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-22 14:29:48', 0),
+(106, 0, 'HannsG HS191D', '2018-01-22 15:34:09', 'mag1-th@LENORMANT', NULL, 0, 0, NULL, '652HH3JA02297', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 226, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-22 15:34:09', 0),
+(107, 0, 'HX191D', '2018-06-30 07:47:46', 'mag1-th@LENORMANT', NULL, 0, 0, NULL, '706GR3JY08411', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 226, 0, 0, 0, NULL, 174, 0, 0, '0.0000', 1, '2018-01-22 15:34:09', 0),
+(108, 0, 'L1734 ', '2018-01-23 08:00:08', 'swiart@LENORMANT', NULL, 0, 0, NULL, '00000b1e', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 150, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-23 08:00:08', 0),
+(109, 0, 'PHILIPS 107S', '2018-07-20 13:47:18', 'magasin-LBTPA@LENORMANT', NULL, 0, 0, NULL, ' HD  000769', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 42, 0, 0, 177, 0, 0, 0, NULL, 165, 0, 0, '0.0000', 1, '2018-01-23 12:25:21', 0),
+(110, 0, 'JT178x5', '2018-01-25 08:40:15', 'cgilouppe@LENORMANT', NULL, 0, 0, NULL, '7540TG005684', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 454, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-01-24 12:34:46', 0),
+(111, 0, 'V193HQV', '2018-07-20 11:53:01', 'lleclaire@LENORMANT', NULL, 0, 0, NULL, 'LL60C00340F4', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 173, 0, 0, 0, NULL, 185, 0, 0, '0.0000', 1, '2018-01-25 10:34:06', 0),
+(112, 0, 'V206HQL', '2018-07-20 11:32:59', 'aspannaccini@LENORMANT', NULL, 0, 0, NULL, 'LY6EE0058501', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 173, 0, 0, 0, NULL, 320, 0, 0, '0.0000', 1, '2018-01-25 11:42:04', 0),
+(113, 0, '2276W', '2018-07-20 11:50:27', 'fdurandal@LENORMANT', NULL, 0, 0, NULL, 'D06E9BA006733', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 57, 0, 0, 85, 0, 0, 0, NULL, 238, 0, 0, '0.0000', 1, '2018-01-29 08:36:40', 0),
+(114, 0, 'HP L1908w', '2018-07-01 01:29:45', 'cgraca@LENORMANT', NULL, 0, 0, NULL, 'CNN7452TBJ', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 163, 0, 0, 0, NULL, 278, 0, 0, '0.0000', 1, '2018-01-31 15:48:30', 0),
+(115, 0, 'W1934 ', '2018-09-07 08:09:45', 'standard-lmm@LENORMANT', NULL, 0, 0, NULL, '0001f6e2', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 150, 0, 0, 0, NULL, 50, 0, 0, '0.0000', 1, '2018-02-01 08:08:38', 0),
+(116, 0, 'Acer X223HQ', '2018-09-12 22:16:22', 'senart@LENORMANT', NULL, 0, 0, NULL, 'LFJ080064200', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 173, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-02-01 08:37:24', 0),
+(117, 0, 'SyncMaster', '2018-07-20 12:15:31', 'dpopping@LENORMANT', NULL, 0, 0, NULL, 'HS2P901700', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 55, 0, 0, 36, 0, 0, 0, NULL, 256, 0, 0, '0.0000', 1, '2018-02-02 08:28:23', 0),
+(118, 0, 'SyncMaster', '2018-02-02 10:28:55', 'mzouaimia@LENORMANT', NULL, 0, 0, NULL, 'H9FQ819093', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 36, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-02-02 10:28:55', 0),
+(119, 0, 'InFocus 112A', '2018-07-27 07:49:56', 'ndiebold@LENORMANT', NULL, 0, 0, NULL, '000008de', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 559, 0, 0, 0, NULL, 131, 0, 0, '0.0000', 1, '2018-02-05 07:33:55', 0),
+(120, 0, 'HP L1908w', '2018-07-20 12:14:47', 'obaillieux@LENORMANT', NULL, 0, 0, NULL, '3CQ904054B', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 163, 0, 0, 0, NULL, 124, 0, 0, '0.0000', 1, '2018-02-05 16:29:00', 0),
+(121, 0, 'Philips 170S', '2018-06-29 22:19:24', 'ydamas@LENORMANT', NULL, 0, 0, NULL, 'AU30721006617', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 177, 0, 0, 0, NULL, 17, 0, 0, '0.0000', 1, '2018-02-06 14:22:19', 0),
+(122, 0, 'LG FULL HD', '2018-07-20 11:41:33', 'scarvalho@LENORMANT', NULL, 0, 0, NULL, '602NTAB0G688', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 150, 0, 0, 0, NULL, 75, 0, 0, '0.0000', 1, '2018-02-07 07:41:00', 0),
+(123, 0, 'L19T-1 LED', '2018-07-20 11:45:26', 'jchimot@LENORMANT', NULL, 0, 0, NULL, 'YV3A048649', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 215, 0, 0, 0, NULL, 215, 0, 0, '0.0000', 1, '2018-02-12 03:22:23', 0),
+(124, 0, 'MX514', '2018-07-23 08:18:33', 'sdossantos@LENORMANT', NULL, 0, 0, NULL, '0000002b', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 430, 0, 0, 0, NULL, 69, 0, 0, '0.0000', 1, '2018-02-12 08:34:53', 0),
+(125, 0, '2280W', '2018-07-20 11:32:59', 'sjovic@LENORMANT', NULL, 0, 0, NULL, 'B80H2GA000282', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 85, 0, 0, 0, NULL, 59, 0, 0, '0.0000', 1, '2018-02-12 09:48:09', 0),
+(126, 0, 'ASUS P3', '2018-09-12 07:55:52', 'cnicolas@LENORMANT', NULL, 0, 0, NULL, 'H6LJNK200422', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 116, 0, 0, 0, NULL, 272, 0, 0, '0.0000', 1, '2018-02-14 07:44:46', 0),
+(127, 0, 'L19T-1 LED', '2018-09-13 07:43:44', 'cgilouppe@LENORMANT', NULL, 0, 0, NULL, 'YV3A048654', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 215, 0, 0, 0, NULL, 279, 0, 0, '0.0000', 1, '2018-02-14 13:52:13', 0),
+(128, 0, 'HP L1908w', '2018-09-13 08:37:17', 'cblas@LENORMANT', NULL, 0, 0, NULL, '3CQ8512CLF', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 163, 0, 0, 0, NULL, 296, 0, 0, '0.0000', 1, '2018-02-14 14:51:23', 0),
+(129, 0, 'Hanns.G HW173', '2018-07-24 14:25:30', 'cciron@LENORMANT', NULL, 0, 0, NULL, '816DY3NA05034', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 226, 0, 0, 0, NULL, 289, 0, 0, '0.0000', 1, '2018-02-14 18:08:08', 0),
+(130, 0, 'W1946', '2018-07-20 12:10:33', 'jdauzou@LENORMANT', NULL, 0, 0, NULL, '0008c895', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 150, 0, 0, 0, NULL, 213, 0, 0, '0.0000', 1, '2018-02-22 09:41:15', 0),
+(131, 0, 'HP S2231', '2018-03-02 08:24:51', 'maj@LENORMANT', NULL, 0, 0, NULL, '3CQ0303R7J', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 163, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-02-26 20:58:39', 0),
+(132, 0, '45/2013', '2018-09-13 07:48:48', 'pharribey@LENORMANT', NULL, 0, 0, NULL, '434e3031', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 590, 0, 0, 0, NULL, 110, 0, 0, '0.0000', 1, '2018-02-28 16:08:15', 0),
+(133, 0, '2270W', '2018-07-02 08:30:23', 'bdewaele@LENORMANT', NULL, 0, 0, NULL, 'FXVF8HA074764', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 85, 0, 0, 0, NULL, 305, 0, 0, '0.0000', 1, '2018-03-01 08:02:23', 0),
+(134, 0, 'S22D300', '2018-03-05 10:12:26', 'reception-soc@LENORMANT', NULL, 0, 0, NULL, 'HKAFA04610', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-03-02 15:50:22', 0),
+(135, 0, 'ASUS VH222H', '2018-07-20 12:08:11', 'priot@LENORMANT', NULL, 0, 0, NULL, '97LMTF051515', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 116, 0, 0, 0, NULL, 99, 0, 0, '0.0000', 1, '2018-03-05 08:25:46', 0),
+(136, 0, 'HP L1906', '2018-07-20 11:58:21', 'msalinas@LENORMANT', NULL, 0, 0, NULL, 'CNN7101J2Y', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 163, 0, 0, 0, NULL, 139, 0, 0, '0.0000', 1, '2018-03-05 13:03:05', 0),
+(137, 0, 'W1934 ', '2018-07-20 13:50:52', 'vmenou@LENORMANT', NULL, 0, 0, NULL, '0001f6e3', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 150, 0, 0, 0, NULL, 23, 0, 0, '0.0000', 1, '2018-03-07 08:39:11', 0),
+(138, 0, 'HW191', '2018-07-02 09:14:21', 'mchapon@LENORMANT', NULL, 0, 0, NULL, '935GH3XY04362', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 226, 0, 0, 0, NULL, 157, 0, 0, '0.0000', 1, '2018-03-09 08:13:37', 0),
+(139, 0, 'BenQ GW2270', '2018-06-29 16:35:11', 'jmarimon@LENORMANT', NULL, 0, 0, NULL, 'YBH03480019', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 430, 0, 0, 0, NULL, 204, 0, 0, '0.0000', 1, '2018-03-09 13:44:44', 0),
+(140, 0, 'HW191', '2018-09-13 06:56:32', 'jpottier@LENORMANT', NULL, 0, 0, NULL, '935GH3XY04413', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 226, 0, 0, 0, NULL, 201, 0, 0, '0.0000', 1, '2018-03-15 14:02:21', 0),
+(141, 0, 'SyncMaster', '2018-07-20 12:05:59', 'rrozalsky@LENORMANT', NULL, 0, 0, NULL, 'H9FQ109238', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 36, 0, 0, 0, NULL, 82, 0, 0, '0.0000', 1, '2018-03-28 08:51:15', 0),
+(142, 0, 'MLP 2200-X', '2018-09-11 10:13:02', 'sdecortes@LENORMANT', NULL, 0, 0, NULL, '00022', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 625, 0, 0, 0, NULL, 70, 0, 0, '0.0000', 1, '2018-03-30 10:10:54', 0),
+(143, 0, '2280W', '2018-07-16 00:47:53', 'rernotte@LENORMANT', NULL, 0, 0, NULL, 'B80H2GA000267', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 85, 0, 0, 0, NULL, 90, 0, 0, '0.0000', 1, '2018-04-03 15:03:57', 0),
+(144, 0, 'BenQ GW2270', '2018-07-20 12:11:59', 'cdavid@LENORMANT', NULL, 0, 0, NULL, 'YBH03400019', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 49, 0, 0, 430, 0, 0, 0, NULL, 284, 0, 0, '0.0000', 1, '2018-04-03 16:33:09', 0),
+(145, 0, 'SAGEM MDP2000', '2018-09-10 10:09:29', 'alenormant@LENORMANT', NULL, 0, 0, NULL, '988300148R', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 625, 0, 0, 0, NULL, 325, 0, 0, '0.0000', 1, '2018-04-04 07:34:54', 0),
+(146, 0, 'Viseo 220Dx', '2018-07-02 10:02:14', 'anicolas@LENORMANT', NULL, 0, 0, NULL, 'D230W0104313', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 633, 0, 0, 0, NULL, 322, 0, 0, '0.0000', 1, '2018-04-04 17:01:14', 0),
+(147, 0, 'HP L1908w', '2018-07-02 07:18:33', 'cbara@LENORMANT', NULL, 0, 0, NULL, '3CQ8471H2X', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 163, 0, 0, 0, NULL, 297, 0, 0, '0.0000', 1, '2018-04-05 07:41:05', 0),
+(148, 0, 'BenQ GW2270', '2018-07-20 12:17:50', 'reception-gcm@LENORMANT', NULL, 0, 0, NULL, 'YBH03417019', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 430, 0, 0, 0, NULL, 92, 0, 0, '0.0000', 1, '2018-04-06 09:08:29', 0),
+(149, 0, 'HP 22kd', '2018-07-02 08:33:20', 'mzouaimia@LENORMANT', NULL, 0, 0, NULL, 'CNC73210B6', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 163, 0, 0, 0, NULL, 136, 0, 0, '0.0000', 1, '2018-04-09 07:52:40', 0),
+(150, 0, 'DELL 2009W', '2018-07-20 12:16:33', 'ddailhat@LENORMANT', NULL, 0, 0, NULL, 'G449H977189U', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 2, 0, 0, 0, NULL, 263, 0, 0, '0.0000', 1, '2018-04-09 08:31:59', 0),
+(151, 0, 'COMPAQ 1720', '2018-07-20 13:55:55', 'imelchior@LENORMANT', NULL, 0, 0, NULL, 'TW2380C220', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 56, 0, 0, 637, 0, 0, 0, NULL, 219, 0, 0, '0.0000', 1, '2018-04-09 09:20:34', 0),
+(152, 0, 'HX191D', '2018-04-11 08:47:41', 'msontot@LENORMANT', NULL, 0, 0, NULL, '701GR3JY01739', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 226, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-04-09 16:07:48', 0),
+(153, 0, 'SAGEMMDP1600', '2018-04-10 06:43:50', 'olenormant@LENORMANT', NULL, 0, 0, NULL, '3141060076', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 642, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-04-10 06:43:50', 0),
+(154, 0, 'L19T-1 LED', '2018-08-30 09:03:20', 'djohnson@LENORMANT', NULL, 0, 0, NULL, 'YV3A047898', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 215, 0, 0, 0, NULL, 260, 0, 0, '0.0000', 1, '2018-04-10 13:17:01', 0),
+(155, 0, 'ASUS VS228', '2018-06-30 18:31:49', 'oesteves@LENORMANT', NULL, 0, 0, NULL, 'E8LMTF150707', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 116, 0, 0, 0, NULL, 123, 0, 0, '0.0000', 1, '2018-04-10 14:00:54', 0),
+(156, 0, 'Acer H6517ABD', '2018-07-20 11:38:07', 'pharribey@LENORMANT', NULL, 0, 0, NULL, 'JNB110015900', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 0, 173, 0, 0, 0, NULL, 110, 0, 0, '0.0000', 1, '2018-04-11 07:58:33', 0),
+(157, 0, 'HP 2011', '2018-07-20 11:58:21', 'amouno@LENORMANT', NULL, 0, 0, NULL, 'CNC125Q476', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 163, 0, 0, 0, NULL, 323, 0, 0, '0.0000', 1, '2018-04-12 16:07:27', 0),
+(158, 0, 'CHHWJT', '2018-04-16 08:32:06', 'scoppin@LENORMANT', NULL, 0, 0, NULL, '97000000', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 357, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-04-16 08:32:06', 0),
+(159, 0, 'HP 2011', '2018-07-20 13:56:32', 'csautiere@LENORMANT', NULL, 0, 0, NULL, 'CNC125Q408', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 35, 0, 0, 163, 0, 0, 0, NULL, 268, 0, 0, '0.0000', 1, '2018-04-23 09:24:20', 0),
+(160, 0, '2250W', '2018-07-20 11:43:20', 'klouraoui@LENORMANT', NULL, 0, 0, NULL, 'CVBC9HA069679', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 85, 0, 0, 0, NULL, 195, 0, 0, '0.0000', 1, '2018-04-24 08:04:57', 0),
+(161, 0, '2270W', '2018-08-03 08:15:10', 'mag3-ban@LENORMANT', NULL, 0, 0, NULL, 'KSNH21A000203', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 85, 0, 0, 0, NULL, 170, 0, 0, '0.0000', 1, '2018-04-24 12:13:13', 0),
+(162, 0, 'L1742 ', '2018-07-20 11:58:21', 'rrozalsky@LENORMANT', NULL, 0, 0, NULL, '0006b56c', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 150, 0, 0, 0, NULL, 82, 0, 0, '0.0000', 1, '2018-04-25 12:20:58', 0),
+(163, 0, 'Acer X115H', '2018-09-07 09:25:25', 'ccandela@LENORMANT', NULL, 0, 0, NULL, 'JN8110015900', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 173, 0, 0, 0, NULL, 292, 0, 0, '0.0000', 1, '2018-04-26 14:02:07', 0),
+(164, 0, 'Philips 170S', '2018-07-20 13:54:35', 'agenoud@LENORMANT', NULL, 0, 0, NULL, 'AU40712010960', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 177, 0, 0, 0, NULL, 331, 0, 0, '0.0000', 1, '2018-04-30 12:07:26', 0),
+(165, 0, 'PHL 273V5', '2018-05-02 08:24:49', 'olenormant@LENORMANT', NULL, 0, 0, NULL, 'UK51806002667', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-05-02 08:24:49', 0),
+(166, 0, '1/2018', '2018-07-20 11:56:00', 'pmsahnoune@LENORMANT', NULL, 0, 0, NULL, 'UY3180124277', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 29, 0, 0, 265, 0, 0, 0, NULL, 104, 0, 0, '0.0000', 1, '2018-05-23 04:55:37', 0),
+(167, 0, 'VA2261 Series', '2018-07-20 11:50:27', 'mgirardeau@LENORMANT', NULL, 0, 0, NULL, 'UY3180122877', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 57, 0, 0, 265, 0, 0, 0, NULL, 151, 0, 0, '0.0000', 1, '2018-05-24 08:52:15', 0),
+(168, 0, '2280W', '2018-07-20 13:58:31', 'abruyant@LENORMANT', NULL, 0, 0, NULL, 'B80H2GA000287', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 85, 0, 0, 0, NULL, 337, 0, 0, '0.0000', 1, '2018-05-29 12:02:46', 0),
+(169, 0, 'ASUS VS247', '2018-07-20 13:53:53', 'imelchior@LENORMANT', NULL, 0, 0, NULL, 'E8LMTF058060', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 56, 0, 0, 116, 0, 0, 0, NULL, 219, 0, 0, '0.0000', 1, '2018-05-30 11:07:58', 0),
+(170, 0, 'VA2261 Series', '2018-06-30 06:01:26', 'mag-GPA@LENORMANT', NULL, 0, 0, NULL, 'UY3180122923', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 265, 0, 0, 0, NULL, 177, 0, 0, '0.0000', 1, '2018-06-04 08:45:33', 0),
+(171, 0, 'ASUS VH197', '2018-09-13 07:55:58', 'dtaillefer@LENORMANT', NULL, 0, 0, NULL, 'A8LMIZ080998', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 116, 0, 0, 0, NULL, 254, 0, 0, '0.0000', 1, '2018-06-07 13:38:10', 0),
+(172, 0, 'ASUS VH197', '2018-07-20 12:18:57', 'lolivier@LENORMANT', NULL, 0, 0, NULL, 'A8LMIZ081568', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 116, 0, 0, 0, NULL, 182, 0, 0, '0.0000', 1, '2018-06-08 08:24:47', 0),
+(173, 0, 'JT198x9-1B', '2018-06-29 20:39:04', 'pkonderla@LENORMANT', NULL, 0, 0, NULL, '7824TI000929', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 454, 0, 0, 0, NULL, 109, 0, 0, '0.0000', 1, '2018-06-11 07:59:06', 0),
+(174, 0, 'S22D300', '2018-06-18 21:43:28', 'fgoujeon@LENORMANT', NULL, 0, 0, NULL, 'HKAFA04595', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-06-18 15:21:50', 0),
+(175, 0, 'L1734 ', '2018-09-13 07:30:17', 'pbove@LENORMANT', NULL, 0, 0, NULL, '00015b6d', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 150, 0, 0, 0, NULL, 116, 0, 0, '0.0000', 1, '2018-06-20 10:36:41', 0),
+(176, 0, 'Philips 170S', '2018-06-30 07:17:33', 'rlegat@LENORMANT', NULL, 0, 0, NULL, 'AU30730006116', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 177, 0, 0, 0, NULL, 87, 0, 0, '0.0000', 1, '2018-06-26 06:05:59', 0),
+(177, 0, 'VA2265 SERIES', '2018-06-26 15:46:46', 'PC01@MAG4-GCM', NULL, 0, 0, NULL, 'UEH153800758', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 265, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-06-26 15:46:46', 0),
+(178, 0, 'Philips 170S', '2018-07-04 12:07:44', 'nlemÃ©e@LENORMANT', NULL, 0, 0, NULL, 'AU30721006623', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-06-28 09:23:55', 0),
+(179, 0, 'JT178x4', '2018-07-25 08:08:32', 'fgoujeon@LENORMANT', NULL, 0, 0, NULL, '7437TG001785', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 454, 0, 0, 0, NULL, 237, 0, 0, '0.0000', 1, '2018-06-29 08:55:41', 0),
+(180, 0, 'HP V213a', '2018-09-12 20:50:31', 'abertrand@LENORMANT', NULL, 0, 0, NULL, 'CNC71017YT', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 456, 0, 0, 0, NULL, 339, 0, 0, '0.0000', 1, '2018-07-04 12:07:44', 0),
+(181, 0, 'Philips 170S', '2018-09-10 08:53:52', 'dpeton@LENORMANT', NULL, 0, 0, NULL, 'AU30721006621', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 177, 0, 0, 0, NULL, 257, 0, 0, '0.0000', 1, '2018-07-16 00:44:44', 0),
+(182, 0, 'L19T-1 LED', '2018-09-13 05:19:48', 'Administrateur@SRVWSUS', NULL, 0, 0, NULL, 'YV3A047875', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 215, 0, 0, 0, NULL, 0, 0, 0, '0.0000', 1, '2018-07-19 18:25:54', 0),
+(183, 0, 'HP V212a', '2018-09-12 22:33:46', 'fgoujeon@LENORMANT', NULL, 0, 0, NULL, 'CNC53903YB', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 163, 0, 0, 0, NULL, 237, 0, 0, '0.0000', 1, '2018-07-20 09:43:39', 0),
+(184, 0, 'COMPAQ FP5315', '2018-08-13 09:23:50', 'dpopping@LENORMANT', NULL, 0, 0, NULL, 'CNC3241KGP', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 55, 0, 0, 637, 0, 0, 0, NULL, 256, 0, 0, '0.0000', 1, '2018-08-13 09:23:50', 0),
+(185, 0, 'HP L1908w', '2018-08-24 07:56:15', 'scoppin@LENORMANT', NULL, 0, 0, NULL, '3CQ8471H03', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 163, 0, 0, 0, NULL, 72, 0, 0, '0.0000', 1, '2018-08-24 07:56:15', 0),
+(186, 0, 'VA1913 series', '2018-08-30 08:32:42', 'iaslan@LENORMANT', NULL, 0, 0, NULL, 'RYZ101902433', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 265, 0, 0, 0, NULL, 222, 0, 0, '0.0000', 1, '2018-08-30 08:32:42', 0),
+(187, 0, 'Optoma EP720', '2018-09-07 10:13:42', 'ccandela@LENORMANT', NULL, 0, 0, NULL, 'Q89U830A0635', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 752, 0, 0, 0, NULL, 292, 0, 0, '0.0000', 1, '2018-09-07 10:13:42', 0),
+(188, 0, 'VA2261 Series', '2018-09-12 11:27:58', 'sfaburel@LENORMANT', NULL, 0, 0, NULL, 'UY3180124472', NULL, '0.00', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 265, 0, 0, 0, NULL, 64, 0, 0, '0.0000', 1, '2018-09-12 11:27:58', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `glpi_suppliers`
+--
+
+CREATE TABLE `glpi_suppliers` (
+  `id` int(11) NOT NULL,
   `entities_id` int(11) NOT NULL DEFAULT '0',
   `is_recursive` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -13539,18 +13752,11 @@ CREATE TABLE IF NOT EXISTS `glpi_suppliers` (
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `notepad` longtext COLLATE utf8_unicode_ci,
   `date_mod` datetime DEFAULT NULL,
-  `date_creation` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`),
-  KEY `entities_id` (`entities_id`),
-  KEY `suppliertypes_id` (`suppliertypes_id`),
-  KEY `is_deleted` (`is_deleted`),
-  KEY `date_mod` (`date_mod`),
-  KEY `date_creation` (`date_creation`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `date_creation` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `glpi_suppliers`
+-- Contenu de la table `glpi_suppliers`
 --
 
 INSERT INTO `glpi_suppliers` (`id`, `entities_id`, `is_recursive`, `name`, `suppliertypes_id`, `address`, `postcode`, `town`, `state`, `country`, `website`, `phonenumber`, `comment`, `is_deleted`, `fax`, `email`, `notepad`, `date_mod`, `date_creation`) VALUES
@@ -13561,8 +13767,128 @@ INSERT INTO `glpi_suppliers` (`id`, `entities_id`, `is_recursive`, `name`, `supp
 (5, 0, 0, 'Cegid', 2, '', '', '', '', '', '', '', '', 0, '', '', NULL, NULL, NULL),
 (6, 0, 0, 'Inovaxo', 2, '', '', '', '', '', '', '', '', 0, '', '', NULL, NULL, NULL),
 (7, 0, 0, 'DEFI60', 0, '', '', '', '', '', '', '', '', 0, '', '', NULL, '2018-01-03 10:25:45', '2018-01-03 10:25:45');
-COMMIT;
 
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `gestion_commande`
+--
+ALTER TABLE `gestion_commande`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Index pour la table `glpi_computers`
+--
+ALTER TABLE `glpi_computers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `date_mod` (`date_mod`),
+  ADD KEY `name` (`name`),
+  ADD KEY `is_template` (`is_template`),
+  ADD KEY `autoupdatesystems_id` (`autoupdatesystems_id`),
+  ADD KEY `domains_id` (`domains_id`),
+  ADD KEY `entities_id` (`entities_id`),
+  ADD KEY `manufacturers_id` (`manufacturers_id`),
+  ADD KEY `groups_id` (`groups_id`),
+  ADD KEY `users_id` (`users_id`),
+  ADD KEY `locations_id` (`locations_id`),
+  ADD KEY `computermodels_id` (`computermodels_id`),
+  ADD KEY `networks_id` (`networks_id`),
+  ADD KEY `states_id` (`states_id`),
+  ADD KEY `users_id_tech` (`users_id_tech`),
+  ADD KEY `computertypes_id` (`computertypes_id`),
+  ADD KEY `is_deleted` (`is_deleted`),
+  ADD KEY `groups_id_tech` (`groups_id_tech`),
+  ADD KEY `is_dynamic` (`is_dynamic`),
+  ADD KEY `serial` (`serial`),
+  ADD KEY `otherserial` (`otherserial`),
+  ADD KEY `uuid` (`uuid`),
+  ADD KEY `date_creation` (`date_creation`),
+  ADD KEY `is_recursive` (`is_recursive`);
+
+--
+-- Index pour la table `glpi_infocoms`
+--
+ALTER TABLE `glpi_infocoms`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unicity` (`itemtype`,`items_id`),
+  ADD KEY `buy_date` (`buy_date`),
+  ADD KEY `alert` (`alert`),
+  ADD KEY `budgets_id` (`budgets_id`),
+  ADD KEY `suppliers_id` (`suppliers_id`),
+  ADD KEY `entities_id` (`entities_id`),
+  ADD KEY `is_recursive` (`is_recursive`),
+  ADD KEY `date_mod` (`date_mod`),
+  ADD KEY `date_creation` (`date_creation`),
+  ADD KEY `businesscriticities_id` (`businesscriticities_id`);
+
+--
+-- Index pour la table `glpi_monitors`
+--
+ALTER TABLE `glpi_monitors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`),
+  ADD KEY `is_template` (`is_template`),
+  ADD KEY `is_global` (`is_global`),
+  ADD KEY `entities_id` (`entities_id`),
+  ADD KEY `manufacturers_id` (`manufacturers_id`),
+  ADD KEY `groups_id` (`groups_id`),
+  ADD KEY `users_id` (`users_id`),
+  ADD KEY `locations_id` (`locations_id`),
+  ADD KEY `monitormodels_id` (`monitormodels_id`),
+  ADD KEY `states_id` (`states_id`),
+  ADD KEY `users_id_tech` (`users_id_tech`),
+  ADD KEY `monitortypes_id` (`monitortypes_id`),
+  ADD KEY `is_deleted` (`is_deleted`),
+  ADD KEY `groups_id_tech` (`groups_id_tech`),
+  ADD KEY `is_dynamic` (`is_dynamic`),
+  ADD KEY `serial` (`serial`),
+  ADD KEY `otherserial` (`otherserial`),
+  ADD KEY `date_creation` (`date_creation`),
+  ADD KEY `is_recursive` (`is_recursive`);
+
+--
+-- Index pour la table `glpi_suppliers`
+--
+ALTER TABLE `glpi_suppliers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`),
+  ADD KEY `entities_id` (`entities_id`),
+  ADD KEY `suppliertypes_id` (`suppliertypes_id`),
+  ADD KEY `is_deleted` (`is_deleted`),
+  ADD KEY `date_mod` (`date_mod`),
+  ADD KEY `date_creation` (`date_creation`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `gestion_commande`
+--
+ALTER TABLE `gestion_commande`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT pour la table `glpi_computers`
+--
+ALTER TABLE `glpi_computers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1852;
+--
+-- AUTO_INCREMENT pour la table `glpi_infocoms`
+--
+ALTER TABLE `glpi_infocoms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28556;
+--
+-- AUTO_INCREMENT pour la table `glpi_monitors`
+--
+ALTER TABLE `glpi_monitors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+--
+-- AUTO_INCREMENT pour la table `glpi_suppliers`
+--
+ALTER TABLE `glpi_suppliers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
